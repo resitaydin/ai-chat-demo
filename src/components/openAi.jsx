@@ -1,5 +1,4 @@
 import { BACKEND_URL } from '../URLS';
-const URL = 'https://nodejs-backend2.onrender.com';
 
 const SendMessage = async ({
   lastText,
@@ -21,27 +20,24 @@ const SendMessage = async ({
   if (SearchTerm !== '') {
     try {
       setSearchTerm('');
-      const response = await fetch(
-        `${BACKEND_URL}/updateAndGenerate/${convId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            messages: sentMsg,
-          }),
-        }
-      );
+      const response = await fetch(`${BACKEND_URL}/ask`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: SearchTerm, // Adjust the payload to match what the Flask endpoint expects
+        }),
+      });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
 
       const data = await response.json();
 
-      if (data.result) setMessages(data.result);
+      if (data.response) setMessages([...sentMsg, { role: 'bot', content: data.response }]);
 
-      setLastText(data.result.at(-1).content);
+      setLastText(data.response);
       setisLoading(false);
     } catch (error) {
       console.error('Error:', error);
@@ -51,11 +47,12 @@ const SendMessage = async ({
     return messages;
   }
 };
+
 const GetMessage = async ({ setData, setMessages, setisLoading, convId }) => {
   setisLoading(true); // Start loading indicator
 
   try {
-    const response = await fetch(`${BACKEND_URL}/chatHistory/${convId}`, {
+    const response = await fetch(`${URL}/chatHistory/${convId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
