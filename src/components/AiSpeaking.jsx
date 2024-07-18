@@ -11,6 +11,8 @@ import useMicrophone from './useMicrophone'; // Import the custom hook
 import { keyframes } from '@emotion/react';
 import roundSpeaker from './imgs/roundSpeaker.json';
 import { ChatIcon } from '@chakra-ui/icons';
+import newAvatar from './imgs/cream.jpg';
+
 const MotionBox = motion(Box);
 const fadeIn = keyframes`
   0% {
@@ -47,7 +49,7 @@ const fadeOut = keyframes`
 const AiSpeaking = ({
   setisOpen,
   isOpen,
-  avatar,
+  newAvatar,
   name,
   isLoading,
   SearchTerm,
@@ -166,7 +168,7 @@ const AiSpeaking = ({
               justifyContent="center"
             >
               <Image
-                src={avatar}
+                src={newAvatar}
                 fallbackSrc={svgDataUrl}
                 width="200px"
                 height="200px"
