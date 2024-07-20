@@ -42,7 +42,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
             Privacy Policy
           </Link>
           <Link className="btn-hover" to="/demo111">
-            demo
+            Talking Product Demo
           </Link>
         </VStack>
 
